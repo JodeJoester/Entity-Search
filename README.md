@@ -20,14 +20,14 @@ Entity_Search能够帮助你从海量的实体-概念对(如包子-食物)文本
 ### 1.进行初始化
 进行搜索前前，程序需要知道实体-概念对文件的存放位置(filename)，并读取文件，将其整理成字典以供调用。这一切只需要创建一个实例即可完成：
 
-    import Entity\_Search as ES
-    searcher=ES.start(filename)
+    import Entity_Search as ES
+    searcher=ES.entity_find(filename)
 ### 2.给出核心概念并找出相应实体
 完成实例的创建之后，就可以简单地进行搜索了。依然以“金融”为例，搜索需要运行这样一行代码：
 
     pos_entity,deleted=searcher.auto_search(core_tag='金融')
 
-pos\_entity会被赋值为所有搜索到的实体构成的列表，deleted则是通过一些自动搜索出来的负概念被删除掉的实体。在默认参数下，不会进行删除实体的步骤，因此deleted一定为空列表。
+pos\_entity会被赋值为所有搜索到的实体构成的列表，deleted则是通过一些自动搜索出来的负概念被删除掉的实体。在默认参数delete=False下，不会进行删除实体的步骤，因此deleted一定为空列表。
 
 您也可以输入列表作为参数，此时列表中的元素都将作为核心概念，统计pos\_proportion时，只需具有列表中的至少一个元素即可被记入，因此搜索到的实体只多不少。
 
@@ -44,7 +44,18 @@ pos\_entity会被赋值为所有搜索到的实体构成的列表，deleted则�
 
 设置delete=True时，我们就可以利用自动筛选出的负概念对实体进行筛选。
 
-        pos_entity,deleted=searcher.auto_search(core_tag='金融',delete=True)
+    pos_entity,deleted=searcher.auto_search(core_tag='金融',delete=True)
 
-在对实体进行筛选前，函数会先找出一些可能的负概念(即很可能与“金融”无关的概念)。这一步同样是根据pos\_proportion来做的-——但这一次，我们要取的候选集满足pos\_proportion<neg\_threshold。这些标签中有很多是非常大的概念（比如“专业”等），因此还需要满足标签下的实体数量小于freq\_threshold。这两个参数的选择非常重要：增大neg\_threshold
+在对实体进行筛选前，函数会先找出一些可能的负概念(即很可能与“金融”无关的概念)。这一步同样是根据pos\_proportion来做的-——但这一次，我们要取的候选集满足pos\_proportion<neg\_threshold。这些标签中有很多是非常大的概念（比如“专业”等），因此还需要满足标签下的实体数量小于freq\_threshold。在这之后，程序会将标签中含有负概念且没有核心概念“金融”的实体删除，存入deleted中以供查看。选择合适的neg\_proportion和freq\_threshold非常重要，若是不幸将较大的概念（如“专家”等）则可能会错误地删除正确的实体，因此需要根据情况选择合适的参数。
+
+### 3.Entity\_Search的其他功能
+#### 1.entity\_writer
+
+在得到实体列表以后，使用entity\_writer可以方便地将实体列表保存为txt文件，存入指定路径s\_dir中
+
+    ES.entity_writer(s_dir='金融实体.txt',entity_list=pos_entity)
+    
+#### 2.ES.entity\_find.search\_and\_writer
+search\_and\_write的参数列表与auto\_search完全一致，返回值也一致。唯一的不同在于search\_and\_write会在运行中调用entity\_writer，将entity\_list保存成名称为核心概念+“实体.txt”的文件。在调用
+
     
