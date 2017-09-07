@@ -67,16 +67,17 @@ search\_and\_write的参数列表与auto\_search完全一致，返回值也一�
 #### 3.ES.entity\_find.mannual\_search
 一般而言，只有当负概念与核心概念完全无关时才能产生较好的筛选效果，这也导致自动筛选的负概念的效果很可能不尽如人意。如果您有一份手动筛选的负概念列表（形如neg\_tags=['武术','计算机','物理学']），则可以用mannual\_search来直接得到需要的实体：
     
-    pos_entity,deleted=searcher.mannual_search(core_tag='金融',neg_tags=neg_tags,entity_dict=None,tag_dict=None,pos_threshold=0.32)
+    pos_entity,deleted=searcher.mannual_search(core_tag='金融',neg_tags=neg_tags,entity_dict=None,tag_dict=None,pos_threshold=0.32)
     
 筛选过程与auto\_search是类似的，唯一的不同在于使用指定的负概念列表代替自动筛选出的负概念列表。
 
 #### 4.ES.entity\_find.entity\_reduce
 有时，您已经得到了一个实体列表(entity\_list)，但您也可能需要对它进行进一步的筛选工作。这时候，可以使用entity\_reduce：
     
-    deleted=searcher.entity\_reduce(entity_list=entity_list,neg_tags=neg_tags,neg_entity=neg_entity)
+    deleted=searcher.entity\_reduce(entity_list=entity_list,neg_tags=neg_tags,neg_entity=neg_entity)
     
-您可以用
+除了使用负概念列表对实体进行筛选之外，还可以输入一个负实体列表neg\_entity，将它们从entity\_list中删除。返回值deleted为删除的所有实体，它们已经不存在于作为形参输入的entity\_list中。
+
     
 
     
