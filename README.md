@@ -17,9 +17,19 @@ Entity_Search能够帮助你从海量的实体-概念对(如包子-食物)文本
 在这之后的工作就变得很简单了：找出拓展标签下的所有实体，它们与通过“金融”标签找到的实体一起组成了我们所需要的实体集合。这就是E\_S最常用的功能，而除此之外，E\_S还可以根据你给出的负概念（与“金融”完全无关的概念）进行实体的筛选，这将在函数的具体功能中介绍。
 
 ## 3.如何使用Entity\_Search
-### 1. 对类进行初始化
-使用E\_S前，程序需要知道实体-概念对文件的存放位置，并读取文件，将其整理成字典以供调用。这一切只需要创建一个实例即可完成：
->import Entity\_Search as ES
->searcher=ES.start(filename)
+### 1.进行初始化
+进行搜索前前，程序需要知道实体-概念对文件的存放位置，并读取文件，将其整理成字典以供调用。这一切只需要创建一个实例即可完成：
 
+    import Entity\_Search as ES
+    searcher=ES.start(filename)
+### 2.给出核心概念并找出相应实体
+完成实例的创建之后，就可以简单地进行搜索了。依然以“金融”为例，搜索需要运行这样一行代码：
 
+    pos_entity,deleted=searcher.auto_search('金融')
+
+pos\_entity会被赋值为所有搜索到的实体构成的列表，deleted则是通过一些自动搜索出来的负概念被删除掉的实体。在默认参数下，不会进行删除实体的步骤，因此deleted一定为空列表。
+
+如果有需要的话，你也可以通过调整函数的参数来调整搜索效果。函数的完整参数如下：
+
+    pos_entity,deleted=search.auto_search(core_tag='金融',entity_dict=None,tag_dict=None,pos_threshold=0.32,neg_threshold=0.1,freq_threshold=30,delete=False)
+    
