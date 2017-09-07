@@ -25,13 +25,13 @@ Entity_Search能够帮助你从海量的实体-概念对(如包子-食物)文本
 ### 2.给出核心概念并找出相应实体
 完成实例的创建之后，就可以简单地进行搜索了。依然以“金融”为例，搜索需要运行这样一行代码：
 
-    pos_entity,deleted=searcher.auto_search(core_tag='金融')
+    pos_entity,deleted=searcher.auto_search(core_tag='金融')
 
 pos\_entity会被赋值为所有搜索到的实体构成的列表，deleted则是通过一些自动搜索出来的负概念被删除掉的实体。在默认参数delete=False下，不会进行删除实体的步骤，因此deleted一定为空列表。
 
 您也可以输入列表作为参数，此时列表中的元素都将作为核心概念，统计pos\_proportion时，只需具有列表中的至少一个元素即可被记入，因此搜索到的实体只多不少。
 
-    pos_entity,deleted=searcher.auto_search(core_tag=['金融','银行'])
+    pos_entity,deleted=searcher.auto_search(core_tag=['金融','银行'])
 
 如果有需要的话，你也可以通过调整函数的参数来调整搜索效果。函数的完整参数如下：
 
