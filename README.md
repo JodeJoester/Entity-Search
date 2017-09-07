@@ -34,5 +34,9 @@ pos\_entity会被赋值为所有搜索到的实体构成的列表，deleted则�
     pos_entity,deleted=search.auto_search(core_tag='金融',entity_dict=None,tag_dict=None,pos_threshold=0.32,\
     neg_threshold=0.1,freq_threshold=30,delete=False)
 
-在这些
+在这些参数中，只有core\_tag没有默认值，需要给出。pos\_threshold对搜索效果的影响较为重要，降低pos\_threshold会提升找到的实体数量，但也可能会降低搜索结果的准确性。freq\_threshold和neg\_threshold在delete为False时没有作用。
+
+#### 利用自动寻找的负概念进行筛选
+选择
+
     
