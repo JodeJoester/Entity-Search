@@ -18,25 +18,33 @@ Entity_Search能够帮助你从海量的实体-概念对(如包子-食物)文本
 
 ## 3.如何使用Entity\_Search
 ### 1.进行初始化
-进行搜索前前，程序需要知道实体-概念对文件的存放位置，并读取文件，将其整理成字典以供调用。这一切只需要创建一个实例即可完成：
+进行搜索前前，程序需要知道实体-概念对文件的存放位置(filename)，并读取文件，将其整理成字典以供调用。这一切只需要创建一个实例即可完成：
 
     import Entity\_Search as ES
     searcher=ES.start(filename)
 ### 2.给出核心概念并找出相应实体
 完成实例的创建之后，就可以简单地进行搜索了。依然以“金融”为例，搜索需要运行这样一行代码：
 
-    pos_entity,deleted=searcher.auto_search('金融')
+    pos_entity,deleted=searcher.auto_search(core_tag='金融')
 
 pos\_entity会被赋值为所有搜索到的实体构成的列表，deleted则是通过一些自动搜索出来的负概念被删除掉的实体。在默认参数下，不会进行删除实体的步骤，因此deleted一定为空列表。
+
+您也可以输入列表作为参数，此时列表中的元素都将作为核心概念，统计pos\_proportion时，只需具有列表中的至少一个元素即可被记入，因此搜索到的实体只多不少。
+
+    pos_entity,deleted=searcher.auto_search(core_tag=['金融','银行'])
 
 如果有需要的话，你也可以通过调整函数的参数来调整搜索效果。函数的完整参数如下：
 
     pos_entity,deleted=search.auto_search(core_tag='金融',entity_dict=None,tag_dict=None,pos_threshold=0.32,\
     neg_threshold=0.1,freq_threshold=30,delete=False)
 
-在这些参数中，只有core\_tag没有默认值，需要给出。pos\_threshold对搜索效果的影响较为重要，降低pos\_threshold会提升找到的实体数量，但也可能会降低搜索结果的准确性。freq\_threshold和neg\_threshold在delete为False时没有作用。
+在这些参数中，只有core\_tag没有默认值，需要给出。pos\_threshold即为我们对pos\_proportion设置的阈值，对搜索效果的影响较为重要，降低pos\_threshold会提升找到的实体数量，但也可能会降低搜索结果的准确性。freq\_threshold和neg\_threshold在delete为False时没有作用。
 
-#### 利用自动寻找的负概念进行筛选
-选择
+*利用自动寻找的负概念进行筛选*
 
+设置delete=True时，我们就可以利用自动筛选出的负概念对实体进行筛选。
+
+        pos_entity,deleted=searcher.auto_search(core_tag='金融',delete=True)
+
+在对实体进行筛选前，函数会先找出一些可能的负概念(即很可能与“金融”无关的概念)。这一步同样是根据pos\_proportion来做的-——但这一次，我们要取的候选集满足pos\_proportion<neg\_threshold。这些标签中有很多是非常大的概念（比如“专业”等），因此还需要满足标签下的实体数量小于freq\_threshold。这两个参数的选择非常重要：增大neg\_threshold
     
