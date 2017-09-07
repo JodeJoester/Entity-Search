@@ -49,7 +49,7 @@ pos\_entity会被赋值为所有搜索到的实体构成的列表，deleted则�
 在对实体进行筛选前，函数会先找出一些可能的负概念(即很可能与“金融”无关的概念)。这一步同样是根据pos\_proportion来做的-——但这一次，我们要取的候选集满足pos\_proportion<neg\_threshold。这些标签中有很多是非常大的概念（比如“专业”等），因此还需要满足标签下的实体数量小于freq\_threshold。在这之后，程序会将标签中含有负概念且没有核心概念“金融”的实体删除，存入deleted中以供查看。选择合适的neg\_proportion和freq\_threshold非常重要，若是不幸将较大的概念（如“专家”等）则可能会错误地删除正确的实体，因此需要根据情况选择合适的参数。
 
 ### 3.Entity\_Search的其他功能
-#### 1.entity\_writer
+#### 1.ES.entity\_writer
 
 在得到实体列表以后，使用entity\_writer可以方便地将实体列表保存为txt文件，存入指定路径s\_dir中
 
