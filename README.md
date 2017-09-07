@@ -21,15 +21,18 @@ Entity_Search能够帮助你从海量的实体-概念对(如包子-食物)文本
 进行搜索前前，程序需要知道实体-概念对文件的存放位置，并读取文件，将其整理成字典以供调用。这一切只需要创建一个实例即可完成：
 
     import Entity\_Search as ES
-    searcher=ES.start(filename)
+    searcher=ES.start(filename)
 ### 2.给出核心概念并找出相应实体
 完成实例的创建之后，就可以简单地进行搜索了。依然以“金融”为例，搜索需要运行这样一行代码：
 
-    pos_entity,deleted=searcher.auto_search('金融')
+    pos_entity,deleted=searcher.auto_search('金融')
 
 pos\_entity会被赋值为所有搜索到的实体构成的列表，deleted则是通过一些自动搜索出来的负概念被删除掉的实体。在默认参数下，不会进行删除实体的步骤，因此deleted一定为空列表。
 
 如果有需要的话，你也可以通过调整函数的参数来调整搜索效果。函数的完整参数如下：
 
-    pos_entity,deleted=search.auto_search(core_tag='金融',entity_dict=None,tag_dict=None,pos_threshold=0.32,neg_threshold=0.1,freq_threshold=30,delete=False)
-    
+    pos_entity,deleted=search.auto_search(core_tag='金融',entity_dict=None,tag_dict=None,pos_threshold=0.32,\
+    neg_threshold=0.1,freq_threshold=30,delete=False)
+
+在这些
+    
