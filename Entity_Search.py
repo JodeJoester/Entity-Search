@@ -75,7 +75,9 @@ class entity_find:
             tag_extend.update({tag_ext:[freq,prop]})
         return pd.DataFrame(data=tag_extend,index=['frequency','proportion']).T
 
-    def tag_reduce(self,tag_list,tag_dict=None,entity_dict=None,neg_tags=[],neg_entity=[]):
+    def tag_reduce(self,tag_list,
+                   tag_dict=None,entity_dict=None,
+                   neg_tags=[],neg_entity=[]):
         if tag_dict is None:
             tag_dict=self.tag_dict
         if entity_dict is None:
@@ -97,7 +99,9 @@ class entity_find:
                     tag_list.remove(tag)
 
     #利用负概念和负实体剪除搜得实体，剪除条件：实体中有负概念且没有核心概念
-    def entity_reduce(self,entity_list,core_tag,tag_dict=None,entity_dict=None,neg_tags=[],neg_entity=[]):
+    def entity_reduce(self,entity_list,core_tag,
+                      tag_dict=None,entity_dict=None,
+                      neg_tags=[],neg_entity=[]):
         if tag_dict is None:
             tag_dict=self.tag_dict
         if entity_dict is None:
@@ -169,7 +173,11 @@ class entity_find:
                 fn.write(entity+'\n')
         fn.close()
 
-    def binary_cut_search(self,full_tags,core_tag,entity_dict=None,tag_dict=None,pos_threshold=0.32,neg_threshold=0.1,freq_threshold=50,delete=False):  #自动搜索方法，flag=0时不进行负实体删除
+    def binary_cut_search(self,
+                          full_tags,core_tag,
+                          entity_dict=None,tag_dict=None,
+                          pos_threshold=0.32,neg_threshold=0.1,freq_threshold=50,
+                          delete=False):  #自动搜索方法，flag=0时不进行负实体删除
         if tag_dict is None:
             tag_dict=self.tag_dict
         if entity_dict is None:
@@ -188,7 +196,10 @@ class entity_find:
         pos_entity=list(set(pos_entity).union(set(core_entity)))
         return pos_entity,deleted
 
-    def auto_search(self,core_tag,entity_dict=None,tag_dict=None,pos_threshold=0.32,neg_threshold=0.1,freq_threshold=30,delete=False):
+    def auto_search(self,core_tag,
+                    entity_dict=None,tag_dict=None,
+                    pos_threshold=0.32,neg_threshold=0.1,freq_threshold=30,
+                    delete=False):
         if tag_dict is None:
             tag_dict=self.tag_dict
         if entity_dict is None:
@@ -197,7 +208,8 @@ class entity_find:
         pos_entity,deleted=self.binary_cut_search(entity_dict=entity_dict,tag_dict=tag_dict,full_tags=full_tags,core_tag=core_tag,pos_threshold=pos_threshold,neg_threshold=neg_threshold,freq_threshold=freq_threshold,delete=delete)
         return pos_entity,deleted
 
-    def mannual_search(self,core_tag,neg_tags,entity_dict=None,tag_dict=None,pos_threshold=0.32):
+    def mannual_search(self,core_tag,neg_tags,
+                       entity_dict=None,tag_dict=None,pos_threshold=0.32):
         if tag_dict is None:
             tag_dict=self.tag_dict
         if entity_dict is None:
@@ -211,7 +223,10 @@ class entity_find:
         pos_entity=list(set(pos_entity).union(set(core_entity)))
         return pos_entity,deleted
 
-    def search_and_write(self,core_tag,entity_dict=None,tag_dict=None,pos_threshold=0.32,neg_threshold=0.1,freq_threshold=30,delete=False):
+    def search_and_write(self,core_tag,
+                         entity_dict=None,tag_dict=None,
+                         pos_threshold=0.32,neg_threshold=0.1,freq_threshold=30,
+                         delete=False):
         if tag_dict is None:
             tag_dict=self.tag_dict
         if entity_dict is None:
@@ -222,7 +237,9 @@ class entity_find:
         self.entity_writer(core_tag+'实体.txt',pos_entity)
         return pos_entity,deleted
     
-    def multi_tag_writers(self,core_tags,pos_threshold=0.32,neg_threshold=0.1,freq_threshold=30,delete=False):
+    def multi_tag_writers(self,core_tags,
+                          pos_threshold=0.32,neg_threshold=0.1,freq_threshold=30,
+                          delete=False):
         deleted=[]
         for core_tag in core_tags:
             deleted.append(self.search_and_write(core_tag,pos_threshold=pos_threshold,neg_threshold=neg_threshold,freq_threshold=freq_threshold,delete=delete)[1])
